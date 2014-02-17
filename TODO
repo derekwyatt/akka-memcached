@@ -1,0 +1,18 @@
+- Add snappy compression option
+
+- Add a fronting cache - perhaps spray-caching would be decent here
+
+- Mutli-get will be 'interesting' when we have consistent hashing
+  - Normally you want to have a sequence of GETs (GETQs, perhaps followed by a
+    final GET or NOOP) but that is desirable when you're going to the same
+    server for all of them.
+  - Consistent Hashing will throw a wrench into the works due to the fact that
+    the 'keys' being retrieved will be on many different servers.
+  - Perhaps what needs to be done is to using the hashing algorithm to grab all
+    of the key/host pairs that need to be pulled, and then batch them up per
+    server.
+  - However, this still needs to be made coherent with the user.  The API can't
+    know that this is going on - i.e. all of the results need to look like they
+    came from a single endpoint.
+
+- Need read / write throttling
